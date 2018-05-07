@@ -44,3 +44,5 @@ def clustering():
 		strm = ((sl, None, None) for sl in major_streams)
 		tv.write(f_out_clustered, strm,  hdr_mapping=hdr)
 		print 'All done'
+if __name__ == "__main__":
+    clustering()
