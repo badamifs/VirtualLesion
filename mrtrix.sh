@@ -52,7 +52,7 @@ fi
 if [ -e ${out}/nodes_fixSGM.mif ]; then
   echo "Using existing ${out}/nodes_fixSGM.mif file.."
 else
-  labelconfig ${data}/../aparc+aseg.nii.gz ${mrtrixdir}/src/connectome/config/fs_default.txt ${out}/nodes.mif -lut_freesurfer ${fsdir}/FreeSurferColorLUT.txt
+  labelconfig ${data}/../aparc+aseg.nii.gz ${mrtrixdir}/src/dwi/tractography/connectomics/example_configs/fs_default.txt ${out}/nodes.mif -lut_freesurfer ${fsdir}/FreeSurferColorLUT.txt
   ${mrtrixdir}/scripts/fs_parc_replace_sgm_first ${out}/nodes.mif ${data}/../T1w_acpc_dc_restore.nii.gz ${mrtrixdir}/src/connectome/config/fs_default.txt ${out}/nodes_fixSGM.mif
 fi
 if [ -e ${out}/20M.tck ]; then
