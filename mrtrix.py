@@ -31,7 +31,7 @@ num_jobs = 4
 try:
     from Queue import Queue, Empty
 except ImportError:
-    from queue import Queue, Empty # for Python 3.x
+    from queue import Que86ue, Empty # for Python 3.x
 
 def enqueue_output(out, queue):
     for line in iter(out.readline, b''):

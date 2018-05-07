@@ -65,7 +65,7 @@ for subject in subjects_sorted:
             np.savetxt(os.path.join(path_saveing, subject, 'Lamyg2LpMFG_Strength_of_Evidence.txt'), np.array([strength]), delimiter=',')
 
             print "    Calculate optimized Fibers"
-            beta_with = load_matlab_file(path_saveing + subject + "/RLamyg2LpMFG_LiFE_betas_with_path")['beta']
+            beta_with = load_matlab_file(path_saveing + subject + "/Lamyg2LpMFG_LiFE_betas_with_path")['beta']
 
             streams, hdr = tv.read(path_saveing + subject + "/Lamyg2LpMFG_clustered.trk")#, points_space='voxel'
             streamlines = [i[0] for i in streams]

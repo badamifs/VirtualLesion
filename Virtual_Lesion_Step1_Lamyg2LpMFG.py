@@ -59,38 +59,38 @@ for subject in subjects_sorted:
     if os.path.isfile(os.path.join(path_saveing, subject, 'Lamyg2LpMFG_clustered2.trk')) == False:
         print "    Clustered File does not exist for this subject, start calculation."
     
-        if os.path.isfile(os.path.join(path_saveing, subject, 'FOD.mif')) == True and os.path.isfile(os.path.join(path_saveing, subject, 'L_amyg_small_warped.nii.gz')) == True and os.path.isfile(os.path.join(path_saveing, subject, 'L_pMFG_warped.nii.gz')) == True:
+        if os.path.isfile(os.path.join(path_saveing, subject, 'FOD.mif')) == True and os.path.isfile(os.path.join(path_saveing, subject, 'L_amyg_big_warped.nii.gz')) == True and os.path.isfile(os.path.join(path_saveing, subject, 'L_pMFG_big_warped.nii.gz')) == True:
             print "    All neccessary files there, continue ..."
     
             directory_output = os.path.join(path_saveing, subject)
 
             if os.path.isfile(os.path.join(path_saveing, subject, 'Lamyg2LpMFG_combined.tck')) == False:
                 print '    Fiber Tracks do not exist, start First Fiber Fracking'
-                cmd = "tckgen " + directory_output + "/FOD.mif " + directory_output + "Lamyg2LpMFG.tck -number 2500 -seed_image " + directory_output + "L_amyg_small_warped.nii.gz  -include " + directory_output + "L_pMFG_warped.nii.gz -force -maxnum 500000000 -act " + directory_output + "/5TT.mif -backtrack -crop_at_gmwmi -maxlength 250"
+                cmd = "tckgen " + directory_output + "/FOD.mif " + directory_output + "/Lamyg2LpMFG_1.tck -number 2500 -seed_image " + directory_output + "/L_amyg_big_warped.nii.gz  -include " + directory_output + "/L_pMFG_big_warped.nii.gz -force -maxnum 500000000 -act " + directory_output + "/5TT.mif -backtrack -crop_at_gmwmi -maxlength 250"
                 os.system(cmd)
 
                 print '    Start Second Fiber Tracking'
-                cmd = "tckgen " + directory_output + "/FOD.mif " + directory_output + "Lamyg2LpMFG.tck -number 2500 -seed_image " + directory_output + "L_amyg_small_warped.nii.gz -include " + directory_output + "L_pMFG_warped.nii.gz -force -maxnum 500000000 -act " + directory_output + "/5TT.mif -backtrack -crop_at_gmwmi -maxlength 250"
+                cmd = "tckgen " + directory_output + "/FOD.mif " + directory_output + "/Lamyg2LpMFG_2.tck -number 2500 -seed_image " + directory_output + "/L_amyg_big_warped.nii.gz  -include " + directory_output + "/L_pMFG_big_warped.nii.gz -force -maxnum 500000000 -act " + directory_output + "/5TT.mif -backtrack -crop_at_gmwmi -maxlength 250"
                 os.system(cmd)
 
                 print '    First step to remove too long fiber from the first streamlines'
-                cmd = "tckedit " + directory_output + "/Lamyg2LpMFG1.tck " + directory_output + "/Lamyg2LpMFG1_cut.tck -include " + directory_output + "/L_amyg_small_warped.nii.gz -test_ends_only -force"
+                cmd = "tckedit " + directory_output + "/Lamyg2LpMFG_1.tck " + directory_output + "/Lamyg2LpMFG_1_cut.tck -include " + directory_output + "/L_amyg_big_warped.nii.gz -test_ends_only -force"
                 os.system(cmd)
 
                 print '    Second step to remove too long fiber from the first streamlines'
-                cmd = "tckedit " + directory_output + "/Lamyg2LpMFG1_cut.tck " + directory_output + "/Lamyg2LpMFG1_cut_cut.tck -include " + directory_output + "/L_pMFG_warped.nii.gz -test_ends_only -force"
+                cmd = "tckedit " + directory_output + "/Lamyg2LpMFG_1_cut.tck " + directory_output + "/Lamyg2LpMFG_1_cut_cut.tck -include " + directory_output + "/L_pMFG_big_warped.nii.gz -test_ends_only -force"
                 os.system(cmd)
 
                 print '    First step to remove too long fiber from the second streamlines'
-                cmd = "tckedit " + directory_output + "/Lamyg2LpMFG2.tck " + directory_output + "/Lamyg2LpMFG2_cut.tck -include " + directory_output + "/L_amyg_small_warped.nii.gz -test_ends_only -force"
+                cmd = "tckedit " + directory_output + "/Lamyg2LpMFG_2.tck " + directory_output + "/Lamyg2LpMFG_2_cut.tck -include " + directory_output + "/L_amyg_big_warped.nii.gz -test_ends_only -force"
                 os.system(cmd)
 
                 print '    Second step to remove too long fiber from the second streamlines'
-                cmd = "tckedit " + directory_output + "/Lamyg2LpMFG2_cut.tck " + directory_output + "/Lamyg2LpMFG2_cut_cut.tck -include " + directory_output + "/L_pMFG_warped.nii.gz -test_ends_only -force"
+                cmd = "tckedit " + directory_output + "/Lamyg2LpMFG_2_cut.tck " + directory_output + "/Lamyg2LpMFG_2_cut_cut.tck -include " + directory_output + "/L_pMFG_big_warped.nii.gz -test_ends_only -force"
                 os.system(cmd)
 
                 print '    Combine resulting streamlines'
-                cmd = "tckedit " + directory_output + "/Lamyg2LpMFG1_cut_cut.tck " + directory_output + "/Lamyg2LpMFG2_cut_cut.tck " + directory_output + "/Lamyg2LpMFG_combined.tck  -force"
+                cmd = "tckedit " + directory_output + "/Lamyg2LpMFG_1_cut_cut.tck " + directory_output + "/Lamyg2LpMFG_2_cut_cut.tck " + directory_output + "/Lamyg2LpMFG_combined.tck  -force"
                 os.system(cmd)
                 
             else:
