@@ -56,7 +56,7 @@ subjects_sorted.remove('.nii.gz')
 for subject in subjects_sorted:
     print ('Process subject ' + subject)
     
-    if os.path.isfile(os.path.join(path_saveing, subject, 'Lamyg2LpMFG_clustered2.trk')) == False:
+    if os.path.isfile(os.path.join(path_saveing, subject, 'Lamyg2LpMFG_clustered.trk')) == False:
         print "    Clustered File does not exist for this subject, start calculation."
     
         if os.path.isfile(os.path.join(path_saveing, subject, 'FOD.mif')) == True and os.path.isfile(os.path.join(path_saveing, subject, 'L_amyg_big_warped.nii.gz')) == True and os.path.isfile(os.path.join(path_saveing, subject, 'L_pMFG_big_warped.nii.gz')) == True:
