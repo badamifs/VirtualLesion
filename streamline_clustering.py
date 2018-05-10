@@ -11,22 +11,20 @@ import MRTrix2TrackVis
 import argparse
 import os
 
-def clustering():
-	parser = argparse.ArgumentParser(prog='streamline_clustering.py',
-                                     description=__doc__)
-	parser.add_argument('-i', '--input', type=str, required=True,
-                        help="Raw data directory")
-	parser.add_argument('-o', '--output', type=str, required=True,
-                        help="Processed data directory")
-	parser.add_argument('-s', '--subject_id', type=str, required=True,
-                        help="hcp subject id")
-	args = parser.parse_args()
+path = '/hcp/'
+path_saveing = '/data/hcp/data/'
 
-	input_dir = op.abspath(args.input)
-	directory_output = op.abspath(args.output)
-	subject_id = op.abspath(args.subject_id)
+subjects = os.listdir(path_saveing)
 
-	f_in_nifti = os.path.join(input_dir, 'T1w/Diffusion/data.nii.gz')
+subjects_sorted = sorted(subjects)
+subjects_sorted.remove('.nii.gz')
+
+for subject in subjects_sorted:
+    print ('Process subject ' + subject)
+	    if os.path.isfile(os.path.join(path_saveing, subject, 'Lamyg2LpMFG_combined.tck')) == True and os.path.isfile(os.path.join(path_saveing, subject, 'Lamyg2LpMFG_combined.trk')) == True:
+            print "All neccessary files there, continue ..."
+
+	f_in_nifti = os.path.join(path, subject, 'T1w/Diffusion/data.nii.gz')
 	f_in_stream = os.path.join(directory_output, 'Lamyg2LpMFG_combined.tck')
 	f_out_converted = os.path.join(directory_output, 'Lamyg2LpMFG_combined.trk')
 	f_out_clustered = os.path.join(directory_output, 'Lamyg2LpMFG_clustered.trk')
@@ -44,12 +42,12 @@ def clustering():
 	major_cluster = clusters > 60
 	major_path = []
 	for j in range(len(clusters)):
-	    	if major_cluster[j] == True:
-		        major_path.append([streamlines[i] for i in clusters[j].indices])
+		if major_cluster[j] == True:
+			        major_path.append([streamlines[i] for i in clusters[j].indices])
 	major_streams = list(itertools.chain(*major_path))
 	strm = ((sl, None, None) for sl in major_streams)
 	tv.write(f_out_clustered, strm,  hdr_mapping=hdr)
-	print("Subject {n} done".format(n=subject_id))
+	print("Subject {n} done".format(n=subjects_sorted))
 
-if __name__ == "__main__":
-    clustering()
+		else:
+            print "Some input files are missing, skip this subject."
