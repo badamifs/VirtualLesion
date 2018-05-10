@@ -22,7 +22,7 @@ subjects_sorted.remove('.nii.gz')
 for subject in subjects_sorted:
     print ('Process subject ' + subject)
 	
-    if os.path.isfile(os.path.join(path_saveing, subject, 'Lamyg2LpMFG_combined.tck')) == True and os.path.isfile(os.path.join(path_saveing, subject, 'Lamyg2LpMFG_combined.trk')) == True:
+    if os.path.isfile(os.path.join(path_saveing, subject, 'Lamyg2LpMFG_combined.tck')) == True:
 	print "All neccessary files there, continue ..."
 
 	directory_output = os.path.join(path_saveing, subject)
@@ -33,7 +33,7 @@ for subject in subjects_sorted:
 	f_out_clustered = os.path.join(directory_output, 'Lamyg2LpMFG_clustered.trk')
 	f_out_centroids = os.path.join(directory_output, 'Lamyg2LpMFG_centroids.trk')
 
-	#MRTrix2TrackVis.convert_tck2trk(f_in_stream, f_in_nifti, f_out_converted)
+	MRTrix2TrackVis.convert_tck2trk(f_in_stream, f_in_nifti, f_out_converted)
 	streams, hdr = tv.read(f_out_converted)
 	streamlines = [i[0] for i in streams]
 
@@ -50,7 +50,7 @@ for subject in subjects_sorted:
 	major_streams = list(itertools.chain(*major_path))
 	strm = ((sl, None, None) for sl in major_streams)
 	tv.write(f_out_clustered, strm,  hdr_mapping=hdr)
-	print("Subject {n} done".format(n=subjects_sorted))
+	#print ("Subject {n} done".format(n=subjects_sorted))
 
     else:
         print "Some input files are missing, skip this subject."
